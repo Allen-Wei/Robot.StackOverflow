@@ -1,0 +1,15 @@
+package net.alanwei.robots.models;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class Answer {
+    private Long upVote;
+    private String bountyAward;
+    private String postContent;
+    private String answerTime;
+    private String userLink;
+    private String userAvatar;
+}
