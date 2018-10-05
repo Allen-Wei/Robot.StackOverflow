@@ -20,6 +20,9 @@ public class DefaultAnswerParser implements AnswerParser {
         if (answerElements.size() <= 0) {
             return Arrays.asList();
         }
+
+        Long questionId = Util.parseLong(ElementUtil.attr(doc, "#question", "data-questionid"));
+        ;
         List<Answer> answers = answerElements.stream()
                 .map(element -> {
                     try {
@@ -34,6 +37,7 @@ public class DefaultAnswerParser implements AnswerParser {
                         String userLink = ElementUtil.attr(author, ".user-details a", "href");
 
                         Answer answer = new Answer();
+                        answer.setQuestionId(questionId);
                         answer.setId(id);
                         answer.setPostContent(postContent);
                         answer.setUpVote(upVote);

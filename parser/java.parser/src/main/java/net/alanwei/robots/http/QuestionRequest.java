@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface QuestionRequest {
-    @GET("questions/{id}")
+    @GET("questions/{id}?answertab=votes#tab-top")
     Call<ResponseBody> request(@Path("id") long questionId);
 
     default Document requestThenParse(long questionId) {

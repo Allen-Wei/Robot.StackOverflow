@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class Answer {
     private Long id;
+    private Long questionId;
     private Long upVote;
     private String bountyAward;
     private String postContent;
