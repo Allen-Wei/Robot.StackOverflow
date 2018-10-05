@@ -16,8 +16,9 @@ namespace dotnetcore.localfile
             factory.Uri = new Uri("amqp://root:654231@47.52.157.46:32825/FILES");
             IConnection connection = factory.CreateConnection("dotnetcore.localfile");
             IModel channel = connection.CreateModel();
-            channel.BasicQos(0, 1, false);
             var consumer = new EventingBasicConsumer(channel);
+            String queueName = channel.QueueDeclare();
+            channel.QueueBind(queue: queueName, exchange: "/question/publish", routingKey: "", arguments: null);
             consumer.Received += (e, ea) =>
             {
                 String json = Encoding.UTF8.GetString(ea.Body);
@@ -25,11 +26,10 @@ namespace dotnetcore.localfile
                 Console.WriteLine($"Question Id {result.QuestionId}");
 
                 String fileName = result.QuestionId == null ? DateTime.Now.Ticks + ".json" : result.QuestionId + ".json";
-                String filePath = Path.Combine(Environment.CurrentDirectory, "data", fileName);
+                String filePath = Path.Combine(Environment.CurrentDirectory, "bin", fileName);
                 File.WriteAllText(filePath, json);
-                channel.BasicAck(ea.DeliveryTag, false);
             };
-            channel.BasicConsume(queue: "queue3", autoAck: false, consumer: consumer);
+            channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
             // Console.ReadKey();
         }
     }
