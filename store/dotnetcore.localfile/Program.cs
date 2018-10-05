@@ -14,7 +14,7 @@ namespace dotnetcore.localfile
         {
             ConnectionFactory factory = new ConnectionFactory();
             factory.Uri = new Uri("amqp://root:654231@47.52.157.46:32825/FILES");
-            IConnection connection = factory.CreateConnection();
+            IConnection connection = factory.CreateConnection("dotnetcore.localfile");
             IModel channel = connection.CreateModel();
             channel.BasicQos(0, 1, false);
             var consumer = new EventingBasicConsumer(channel);
@@ -29,8 +29,8 @@ namespace dotnetcore.localfile
                 File.WriteAllText(filePath, json);
                 channel.BasicAck(ea.DeliveryTag, false);
             };
-            channel.BasicConsume(queue: "queue2", autoAck: false, consumer: consumer);
-            Console.ReadKey();
+            channel.BasicConsume(queue: "queue3", autoAck: false, consumer: consumer);
+            // Console.ReadKey();
         }
     }
 }

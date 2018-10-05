@@ -12,28 +12,29 @@ public class DefaultRabbitMqUse implements RabbitMqUse {
     private long waitSecond = 0;
 
     @Override
-    public void use(String uri, ConsumerAllowException<Channel> consumer) {
+    public void use(String connectionName, String uri, ConsumerAllowException<Channel> consumer) {
         this.close();
-        this.init(uri);
+        this.init(connectionName, uri);
         try {
             consumer.accept(this.channel);
             waitSecond = 0;
         } catch (Throwable ex) {
+            ex.printStackTrace();
             try {
                 Thread.sleep((long) Math.pow(waitSecond, 2) * 1000);
                 ++waitSecond;
-                this.use(uri, consumer);
+                this.use(connectionName, uri, consumer);
             } catch (Throwable inter) {
             }
         }
     }
 
 
-    private void init(String uri) {
+    private void init(String connectionName, String uri) {
         try {
             ConnectionFactory factory = new ConnectionFactory();
             factory.setUri(uri);
-            this.connection = factory.newConnection();
+            this.connection = factory.newConnection(connectionName);
             this.channel = connection.createChannel();
         } catch (Throwable ex) {
         }

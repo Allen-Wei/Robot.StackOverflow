@@ -36,7 +36,7 @@ public class RabbitMqQuestionJobConsumer implements QuestionJobConsumer {
 
     @Override
     public void consume() {
-        this.mqUse.use("amqp://root:654231@47.52.157.46:32825/FILES", channel -> {
+        this.mqUse.use(RabbitMqQuestionJobConsumer.class.getSimpleName(), "amqp://root:654231@47.52.157.46:32825/FILES", channel -> {
             channel.basicQos(1);
             channel.exchangeDeclare(EXCHANGE_NAME, "direct", true, false, false, null);
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
