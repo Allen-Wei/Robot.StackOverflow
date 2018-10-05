@@ -5,6 +5,7 @@ import net.alanwei.robots.models.Answer;
 import net.alanwei.robots.utils.ElementUtil;
 import net.alanwei.robots.utils.Util;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,18 @@ public class DefaultAnswerParser implements AnswerParser {
         List<Answer> answers = answerElements.stream()
                 .map(element -> {
                     try {
+                        Long id = Util.parseLong(ElementUtil.attr(element, null, "data-answerid"));
                         Long upVote = Util.parseLong(ElementUtil.text(element, ".vote .vote-count-post"));
                         String bountyAward = ElementUtil.text(element, ".vote .bounty-award");
-                        String postContent = ElementUtil.text(element, ".answercell .post-text");
-                        String answerTime = ElementUtil.attr(element, ".answercell .owner .user-action-time .relativetime", "title");
-                        String avatar = ElementUtil.attr(element, ".answercell .owner img", "src");
-                        String userLink = element.selectFirst(".answercell .owner .user-details a").attr("href");
+                        String postContent = ElementUtil.html(element, ".answercell .post-text");
+
+                        Element author = element.selectFirst(".answercell .post-signature:last-child");
+                        String answerTime = ElementUtil.attr(author, ".user-action-time .relativetime", "title");
+                        String avatar = ElementUtil.attr(author, "img", "src");
+                        String userLink = ElementUtil.attr(author, ".user-details a", "href");
 
                         Answer answer = new Answer();
+                        answer.setId(id);
                         answer.setPostContent(postContent);
                         answer.setUpVote(upVote);
                         answer.setAnswerTime(answerTime);

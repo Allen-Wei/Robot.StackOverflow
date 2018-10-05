@@ -8,10 +8,10 @@ import java.util.List;
 @Getter
 @Setter
 public class Question {
+    private Long id;
     private String name;
     private String link;
     private String asked;
-    private String askTime;
     private String viewed;
     private Long upVote;
     private Long favorite;

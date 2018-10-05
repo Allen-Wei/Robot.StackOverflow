@@ -21,9 +21,13 @@ public class App {
     public static void main(String[] args) throws Throwable {
 
         ApplicationContext context = new AnnotationConfigApplicationContext(App.class);
-        long id = 14220321;
+        long id = 5;
         QuestionRequest service = context.getBean(QuestionRequest.class);
         Document doc = service.requestThenParse(id);
+        if(doc == null){
+            System.out.println("doc is null");
+            return;
+        }
 
         QuestionParser questionParser = context.getBean(QuestionParser.class);
         Question question = questionParser.parse(doc);
