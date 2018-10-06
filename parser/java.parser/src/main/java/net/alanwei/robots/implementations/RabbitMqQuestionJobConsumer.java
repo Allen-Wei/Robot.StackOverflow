@@ -18,8 +18,8 @@ import java.util.List;
 @Service
 public class RabbitMqQuestionJobConsumer implements QuestionJobConsumer {
 
-    private static final String QUEUE_NAME = "queue1";
-    private static final String EXCHANGE_NAME = "/question/consume";
+    private static final String QUEUE_NAME = "queue-fetch";
+    private static final String EXCHANGE_NAME = "/question/fetch";
     private final RabbitMqUse mqUse;
     @Autowired
     private QuestionRequest request;
@@ -38,7 +38,7 @@ public class RabbitMqQuestionJobConsumer implements QuestionJobConsumer {
     public void consume() {
         this.mqUse.use(RabbitMqQuestionJobConsumer.class.getSimpleName(), "amqp://root:654231@47.52.157.46:32825/FILES", channel -> {
             channel.basicQos(1);
-            channel.exchangeDeclare(EXCHANGE_NAME, "direct", true, false, false, null);
+            channel.exchangeDeclare(EXCHANGE_NAME, "direct", false, false, false, null);
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
             channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, QUEUE_NAME);
 
