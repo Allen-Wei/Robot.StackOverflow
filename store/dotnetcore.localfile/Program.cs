@@ -30,7 +30,6 @@ namespace dotnetcore.localfile
                 File.WriteAllText(filePath, json);
             };
             channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
-            // Console.ReadKey();
         }
     }
 }
