@@ -4,7 +4,7 @@
 
     <groupId>net.alanwei.robots</groupId>
     <artifactId>javaparser</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <build>
         <plugins>
             <plugin>
@@ -20,7 +20,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>oa.meeting.reserve.App</mainClass>
+                            <mainClass>net.alanwei.robots.App</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
