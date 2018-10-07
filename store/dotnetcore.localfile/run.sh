@@ -1,0 +1,1 @@
+docker run -d -v "$PWD":/data microsoft/dotnet sh -c "cp -r /data /program; cd /program; dotnet restore; dotnet run"

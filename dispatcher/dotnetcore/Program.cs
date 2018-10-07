@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -17,8 +18,11 @@ namespace JobDispatcher
             IConnection connection = factory.CreateConnection();
             IModel channel = connection.CreateModel();
             channel.ExchangeDeclare(exchange: EXCHANGE_NAME, type: "direct", durable: false, autoDelete: false, arguments: null);
-            String body = JsonConvert.SerializeObject(new { questionId = 102 });
-            channel.BasicPublish(exchange: EXCHANGE_NAME, routingKey: QUEUE_NAME, body: Encoding.UTF8.GetBytes(body));
+            Enumerable.Range(1, 100000).ToList().ForEach(id =>
+            {
+                String body = JsonConvert.SerializeObject(new { questionId = id });
+                channel.BasicPublish(exchange: EXCHANGE_NAME, routingKey: QUEUE_NAME, body: Encoding.UTF8.GetBytes(body));
+            });
         }
     }
 }

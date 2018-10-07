@@ -1,0 +1,1 @@
+docker run -d -v "$PWD":/data alanway/maven-aliyun sh -c "cp -r /data /program; cd /program; mvn clean compile assembly:single; java -jar target/javaparser-1.0.1-jar-with-dependencies.jar"
