@@ -10,6 +10,7 @@ import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Envelope;
 import net.alanwei.robot.models.QuestionJobResult;
 import org.bson.Document;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Hello world!
  */
+@ComponentScan
 public class App {
     public static void main(String[] args) throws Throwable {
 
